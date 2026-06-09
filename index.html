@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tousif Ahmed — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;
+  --card:#111111;
+  --cb:#1c1c1c;
+  --w:#ffffff;
+  --g:#666666;
+  --l:#aaaaaa;
+  --mono:'Space Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--w);font-family:var(--sans);user-select:none}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.75rem;height:56px;
+  background:rgba(8,8,8,0.98);
+  border-bottom:1px solid #1a1a1a;
+  position:relative;z-index:50;
+}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--w);text-transform:uppercase}
+.nav-btns{display:flex;gap:3px}
+.nb{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
+  padding:7px 14px;background:transparent;border:1px solid transparent;
+  color:var(--g);cursor:pointer;transition:all 0.2s;
+}
+.nb:hover{color:var(--w);border-color:#2a2a2a}
+.nb.active{color:var(--w);border-color:#2e2e2e;background:#111}
+.nav-right{display:flex;gap:8px;align-items:center}
+.ab{
+  background:transparent;border:1px solid #1e1e1e;color:var(--w);
+  width:34px;height:34px;cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;font-family:var(--mono);
+}
+.ab:hover{background:#1a1a1a;border-color:#333}
+.ab:disabled{opacity:0.2;cursor:default}
+.slide-num-nav{font-family:var(--mono);font-size:10px;color:var(--g);min-width:30px;text-align:center}
+
+/* SLIDER */
+.slider-outer{height:calc(100vh - 56px);overflow:hidden;position:relative}
+.track{display:flex;height:100%;transition:transform 0.65s cubic-bezier(0.77,0,0.18,1)}
+.slide{
+  min-width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem 3rem;position:relative;overflow:hidden;
+}
+
+/* DOTS */
+.dots{position:absolute;bottom:1.4rem;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.dot{width:20px;height:2px;background:#222;transition:all 0.3s;cursor:pointer}
+.dot.active{background:var(--w);width:36px}
+
+/* SLIDE COUNTER */
+.sc{position:absolute;bottom:1.3rem;right:1.8rem;font-family:var(--mono);font-size:10px;color:#333;letter-spacing:0.1em}
+
+/* SHARED */
+.slabel{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.24em;
+  color:var(--g);text-transform:uppercase;margin-bottom:0.9rem;
+  display:flex;align-items:center;gap:8px;
+}
+.slabel::before{content:'';width:16px;height:1px;background:#2e2e2e}
+
+/* POPPED CARD */
+.card{
+  background:var(--card);
+  border:1px solid var(--cb);
+  box-shadow:0 0 0 1px #181818,0 12px 48px rgba(0,0,0,0.9),0 2px 8px rgba(0,0,0,0.6);
+  padding:1.75rem;
+}
+
+/* BUTTONS */
+.bw{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:10px 20px;border:1px solid var(--w);background:var(--w);color:#000;
+  cursor:pointer;transition:opacity 0.2s;text-decoration:none;display:inline-block;
+}
+.bw:hover{opacity:0.8}
+.bo{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:10px 20px;border:1px solid #2a2a2a;background:transparent;
+  color:var(--l);cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;
+}
+.bo:hover{border-color:var(--w);color:var(--w)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ===== SLIDE 1: HERO ===== */
+.hero-grid{
+  display:grid;grid-template-columns:1fr 265px;gap:2.5rem;
+  width:100%;max-width:980px;align-items:center;
+}
+.hero-name{
+  font-family:var(--mono);font-size:clamp(2.6rem,5vw,4.4rem);
+  font-weight:700;line-height:1;letter-spacing:-0.03em;margin-bottom:0.4rem;
+}
+.hero-name .dim{color:#2e2e2e}
+.hero-role{
+  font-size:12px;color:var(--l);letter-spacing:0.12em;
+  font-weight:300;margin-bottom:1rem;font-family:var(--mono);
+}
+.hero-bio{font-size:13px;color:var(--g);line-height:1.85;margin-bottom:1.5rem;max-width:420px}
+.avatar{
+  width:58px;height:58px;border:2px solid var(--w);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:16px;font-weight:700;margin-bottom:1rem;
+}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--cb);margin-top:0.75rem}
+.stat-box{background:var(--card);padding:0.75rem;text-align:center}
+.stat-n{font-family:var(--mono);font-size:18px;font-weight:700;display:block}
+.stat-l{font-size:9px;color:var(--g);text-transform:uppercase;letter-spacing:0.1em}
+.soc-row{display:flex;gap:6px;margin-top:1rem}
+.soc{
+  font-family:var(--mono);font-size:9px;border:1px solid #2a2a2a;
+  color:var(--g);padding:5px 10px;text-decoration:none;
+  transition:all 0.2s;flex:1;text-align:center;
+}
+.soc:hover{border-color:var(--w);color:var(--w)}
+.pulse-dot{
+  width:7px;height:7px;background:#4ade80;border-radius:50%;
+  display:inline-block;animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ===== SLIDE 2: SKILLS ===== */
+.skills-wrap{width:100%;max-width:960px}
+.sh{font-family:var(--mono);font-size:1.8rem;font-weight:700;margin-bottom:1.4rem}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--cb)}
+.skill-box{background:var(--card);padding:1.1rem 1.25rem}
+.scat{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--g);margin-bottom:0.6rem}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-family:var(--mono);font-size:9px;border:1px solid var(--cb);padding:3px 7px;color:var(--l)}
+.cert-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--cb);margin-top:1px}
+.cert-box{background:var(--card);padding:0.9rem 1.1rem}
+.cert-name{font-size:12px;font-weight:500;margin-bottom:3px}
+.cert-year{font-family:var(--mono);font-size:9px;color:var(--g)}
+
+/* ===== SLIDE 3: EXPERIENCE ===== */
+.exp-wrap{width:100%;max-width:900px}
+.exp-h{font-family:var(--mono);font-size:1.8rem;font-weight:700;margin-bottom:1.4rem}
+.exp-list{display:flex;flex-direction:column;gap:1px;background:var(--cb)}
+.exp-row{
+  background:var(--card);display:grid;grid-template-columns:120px 1fr;
+  gap:1.5rem;padding:1.15rem 1.3rem;transition:background 0.2s;
+}
+.exp-row:hover{background:#141414}
+.exp-per{font-family:var(--mono);font-size:10px;color:var(--g);padding-top:2px;line-height:1.6}
+.exp-role{font-size:14px;font-weight:500;margin-bottom:3px}
+.exp-co{font-family:var(--mono);font-size:10px;color:var(--g);margin-bottom:8px}
+.exp-desc{font-size:12px;color:var(--g);line-height:1.75}
+.etags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.etag{font-family:var(--mono);font-size:8px;border:1px solid #1e1e1e;padding:2px 7px;color:#444}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--cb);margin-top:1px}
+.edu-box{background:var(--card);padding:1rem 1.25rem}
+.edu-per{font-family:var(--mono);font-size:9px;color:var(--g);margin-bottom:4px}
+.edu-d{font-size:13px;font-weight:500;margin-bottom:3px}
+.edu-s{font-family:var(--mono);font-size:10px;color:var(--g)}
+.gpa-badge{
+  display:inline-block;font-family:var(--mono);font-size:9px;
+  border:1px solid #2a2a2a;padding:2px 8px;color:#555;margin-top:6px;
+}
+
+/* ===== SLIDE 4: PROJECTS ===== */
+.proj-wrap{width:100%;max-width:990px}
+.proj-h{font-family:var(--mono);font-size:1.8rem;font-weight:700;margin-bottom:1.4rem}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--cb)}
+.pc{
+  background:var(--card);padding:1.4rem;transition:background 0.2s;
+  border:1px solid transparent;
+}
+.pc:hover{background:#141414;border-color:var(--cb)}
+.pnum{font-family:var(--mono);font-size:9px;color:var(--g);margin-bottom:0.6rem}
+.pname{font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.pdesc{font-size:11px;color:var(--g);line-height:1.7;margin-bottom:0.9rem}
+.plnks{display:flex;gap:10px}
+.pl{
+  font-family:var(--mono);font-size:9px;color:var(--w);
+  text-decoration:none;letter-spacing:0.06em;transition:opacity 0.2s;
+}
+.pl:hover{opacity:0.5}
+.ptechs{
+  display:flex;gap:4px;flex-wrap:wrap;
+  margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--cb);
+}
+.ptechs span{font-family:var(--mono);font-size:8px;color:#3a3a3a}
+
+/* ===== SLIDE 5: CONTACT ===== */
+.ct-wrap{
+  width:100%;max-width:780px;
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;
+}
+.ct-h{font-family:var(--mono);font-size:2.2rem;font-weight:700;line-height:1.1;margin-bottom:0.8rem}
+.ct-sub{font-size:13px;color:var(--g);line-height:1.8;margin-bottom:1.5rem}
+.ct-items{display:flex;flex-direction:column;gap:1px;background:var(--cb)}
+.ci{
+  background:var(--card);display:flex;align-items:center;
+  gap:1rem;padding:0.85rem 1.1rem;text-decoration:none;
+  color:var(--w);transition:background 0.2s;cursor:pointer;
+}
+.ci:hover{background:#161616}
+.citype{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--g);min-width:70px}
+.cival{font-size:12px;color:var(--l)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-card-col{display:none}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  .cert-row{grid-template-columns:1fr}
+  .exp-row{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr}
+  .ct-wrap{grid-template-columns:1fr}
+  .nav-btns{display:none}
+  .slide{padding:1.5rem 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">Tousif Ahmed</span>
+  <div class="nav-btns">
+    <button class="nb active" onclick="goTo(0)">Home</button>
+    <button class="nb" onclick="goTo(1)">Skills</button>
+    <button class="nb" onclick="goTo(2)">Experience</button>
+    <button class="nb" onclick="goTo(3)">Projects</button>
+    <button class="nb" onclick="goTo(4)">Contact</button>
+  </div>
+  <div class="nav-right">
+    <button class="ab" id="pb" onclick="prev()" disabled>&#8592;</button>
+    <span class="slide-num-nav" id="snn">1/5</span>
+    <button class="ab" id="nb2" onclick="next()">&#8594;</button>
+  </div>
+</nav>
+
+<div class="slider-outer" id="so">
+  <div class="track" id="track">
+
+    <!-- ===== SLIDE 1: HERO ===== -->
+    <div class="slide">
+      <div class="hero-grid">
+        <div>
+          <div class="slabel">01 &mdash; Hello, World</div>
+          <div class="hero-name">Tousif<br><span class="dim">Ahmed</span></div>
+          <div class="hero-role">AI / ML Engineer &middot; Research Intern &middot; Chennai, India</div>
+          <p class="hero-bio">
+            B.Tech CSE (AI &amp; ML) student at SRM IST with a GPA of 8.86, building
+            production-grade AI systems — from quantum-classical CT classifiers to
+            self-healing cloud orchestration. Turning complex research problems into
+            deployable, real-world solutions.
+          </p>
+          <div class="btn-row">
+            <a href="https://github.com/tousif632" class="bw" target="_blank">GitHub →</a>
+            <a href="https://linkedin.com/in/tousif3" class="bo" target="_blank">LinkedIn ↗</a>
+            <button class="bo" onclick="goTo(3)">View Projects</button>
+          </div>
+        </div>
+        <div class="card hero-card-col">
+          <div class="avatar">TA</div>
+          <div style="font-family:var(--mono);font-size:14px;font-weight:700;margin-bottom:3px">Tousif Ahmed</div>
+          <div style="font-size:11px;color:var(--g);margin-bottom:6px;font-family:var(--mono)">AI / ML Engineer</div>
+          <div style="font-size:10px;color:#4ade80;font-family:var(--mono);margin-bottom:1rem;display:flex;align-items:center;gap:6px">
+            <span class="pulse-dot"></span> Open to opportunities
+          </div>
+          <div class="stat-grid">
+            <div class="stat-box"><span class="stat-n">8.86</span><span class="stat-l">GPA</span></div>
+            <div class="stat-box"><span class="stat-n">6+</span><span class="stat-l">Projects</span></div>
+            <div class="stat-box"><span class="stat-n">3</span><span class="stat-l">Certs</span></div>
+            <div class="stat-box"><span class="stat-n">97%</span><span class="stat-l">Best Acc.</span></div>
+          </div>
+          <div class="soc-row">
+            <a href="https://github.com/tousif632" class="soc" target="_blank">tousif632</a>
+            <a href="https://linkedin.com/in/tousif3" class="soc" target="_blank">tousif3</a>
+          </div>
+        </div>
+      </div>
+      <div class="sc">01 / 05</div>
+    </div>
+
+    <!-- ===== SLIDE 2: SKILLS + CERTS ===== -->
+    <div class="slide">
+      <div class="skills-wrap">
+        <div class="slabel">02 &mdash; Skills &amp; Certifications</div>
+        <div class="sh">Technologies</div>
+        <div class="skills-grid">
+          <div class="skill-box">
+            <div class="scat">Languages</div>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">SQL</span>
+              <span class="tag">C</span><span class="tag">C++</span><span class="tag">Java</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <div class="scat">Frameworks / Libraries</div>
+            <div class="tags">
+              <span class="tag">TensorFlow</span><span class="tag">Keras</span>
+              <span class="tag">Scikit-learn</span><span class="tag">Pandas</span>
+              <span class="tag">NumPy</span><span class="tag">OpenCV</span>
+              <span class="tag">Flask</span><span class="tag">FastAPI</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <div class="scat">AI / ML Concepts</div>
+            <div class="tags">
+              <span class="tag">Machine Learning</span><span class="tag">Deep Learning</span>
+              <span class="tag">NLP</span><span class="tag">Computer Vision</span>
+              <span class="tag">LLMs</span><span class="tag">RAG</span>
+              <span class="tag">RL / PPO</span><span class="tag">Quantum ML</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <div class="scat">Tools &amp; Databases</div>
+            <div class="tags">
+              <span class="tag">Git</span><span class="tag">GitHub</span>
+              <span class="tag">Postman</span><span class="tag">Power BI</span>
+              <span class="tag">Tableau</span><span class="tag">MySQL</span>
+              <span class="tag">MongoDB</span><span class="tag">SQLite</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <div class="scat">Platforms &amp; Dev</div>
+            <div class="tags">
+              <span class="tag">Jupyter</span><span class="tag">VS Code</span>
+              <span class="tag">PyCharm</span><span class="tag">IntelliJ</span>
+              <span class="tag">LangChain</span><span class="tag">FAISS</span>
+              <span class="tag">PennyLane</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <div class="scat">Soft Skills</div>
+            <div class="tags">
+              <span class="tag">Communication</span><span class="tag">Teamwork</span>
+              <span class="tag">Problem Solving</span><span class="tag">Adaptability</span>
+              <span class="tag">Rapid Learning</span>
+            </div>
+          </div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-box">
+            <div class="cert-name">AWS Certified AI Practitioner</div>
+            <div class="cert-year">2026 &nbsp;&middot;&nbsp; Amazon Web Services</div>
+          </div>
+          <div class="cert-box">
+            <div class="cert-name">AWS ML Foundations Graduate</div>
+            <div class="cert-year">Oct 2025 &nbsp;&middot;&nbsp; AWS Academy</div>
+          </div>
+          <div class="cert-box">
+            <div class="cert-name">Oracle OCI AI Foundations</div>
+            <div class="cert-year">Jan 2025 &nbsp;&middot;&nbsp; Oracle Certified</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">02 / 05</div>
+    </div>
+
+    <!-- ===== SLIDE 3: EXPERIENCE + EDUCATION ===== -->
+    <div class="slide">
+      <div class="exp-wrap">
+        <div class="slabel">03 &mdash; Experience &amp; Education</div>
+        <div class="exp-h">Background</div>
+        <div class="exp-list">
+          <div class="exp-row">
+            <div class="exp-per">Jun 2025<br>Dec 2025</div>
+            <div>
+              <div class="exp-role">Research Intern</div>
+              <div class="exp-co">National Institution of Science and Technology</div>
+              <p class="exp-desc">
+                Researched emotion detection from social media text using NLP preprocessing
+                (tokenization, stopword removal, normalization). Implemented BERT and LSTM
+                models for multi-class emotion classification, achieving 91% accuracy.
+                Trained using Adam optimizer with confusion matrix performance analysis.
+              </p>
+              <div class="etags">
+                <span class="etag">BERT</span><span class="etag">LSTM</span>
+                <span class="etag">NLP</span><span class="etag">Python</span>
+                <span class="etag">TensorFlow</span><span class="etag">Emotion AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="edu-grid">
+          <div class="edu-box">
+            <div class="edu-per">Jun 2023 – May 2027</div>
+            <div class="edu-d">B.Tech · CSE – AI &amp; Machine Learning</div>
+            <div class="edu-s">SRM Institute of Science and Technology, Chennai</div>
+            <span class="gpa-badge">GPA: 8.86</span>
+          </div>
+          <div class="edu-box">
+            <div class="edu-per">Jun 2022 – Apr 2023</div>
+            <div class="edu-d">Class XII – State Board</div>
+            <div class="edu-s">K.K.S Mani Matric Higher Secondary School, Vellore</div>
+            <span class="gpa-badge">GPA: 7.7</span>
+          </div>
+        </div>
+      </div>
+      <div class="sc">03 / 05</div>
+    </div>
+
+    <!-- ===== SLIDE 4: PROJECTS ===== -->
+    <div class="slide">
+      <div class="proj-wrap">
+        <div class="slabel">04 &mdash; Projects</div>
+        <div class="proj-h">Featured Work</div>
+        <div class="proj-grid">
+          <div class="pc">
+            <div class="pnum">01 &mdash; Dec 2024</div>
+            <div class="pname">Tri-Level Quantum-Classical CT Classifier</div>
+            <p class="pdesc">7-model pipeline for CT scan routing across Brain, Lung &amp; Kidney. Hybrid QCNN with ResNet-18 + 8-qubit PennyLane VQC. 97.44% kidney accuracy on 4,613 scans.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>ResNet-18</span><span>·</span><span>PennyLane</span><span>·</span><span>FastAPI</span><span>·</span><span>QCNN</span></div>
+          </div>
+          <div class="pc">
+            <div class="pnum">02 &mdash; 2025</div>
+            <div class="pname">AeroHeal – Self-Healing Cloud Orchestration</div>
+            <p class="pdesc">Closed-loop DRL system using PPO over 6-dimensional telemetry with 7-action intervention space for autonomous microservice recovery. Trained 300k+ timesteps.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>PPO</span><span>·</span><span>Actor-Critic</span><span>·</span><span>Microservices</span><span>·</span><span>DRL</span></div>
+          </div>
+          <div class="pc">
+            <div class="pnum">03 &mdash; 2026</div>
+            <div class="pname">AI Agent for Automated Query Handling</div>
+            <p class="pdesc">AI agent using OpenAI APIs, LangChain &amp; FAISS-based RAG for context-aware query resolution. Multi-step retrieve-process-generate workflow with FastAPI backend.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>LangChain</span><span>·</span><span>FAISS</span><span>·</span><span>OpenAI</span><span>·</span><span>FastAPI</span></div>
+          </div>
+          <div class="pc">
+            <div class="pnum">04 &mdash; Dec 2024</div>
+            <div class="pname">Real-Time Sign Language Detection</div>
+            <p class="pdesc">Real-time sign language recognition using CNN-based gesture classification with hand landmark detection. 92% accuracy in live prediction scenarios.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>CNN</span><span>·</span><span>OpenCV</span><span>·</span><span>Computer Vision</span></div>
+          </div>
+          <div class="pc">
+            <div class="pnum">05 &mdash; Jun 2025</div>
+            <div class="pname">Plant Disease Detection System</div>
+            <p class="pdesc">Two-stage hierarchical classification pipeline using MobileNetV2 transfer learning. 95% accuracy on PlantVillage dataset for real-world plant disease detection.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>MobileNetV2</span><span>·</span><span>Transfer Learning</span><span>·</span><span>TensorFlow</span></div>
+          </div>
+          <div class="pc">
+            <div class="pnum">06 &mdash; Dec 2025</div>
+            <div class="pname">SecureChat – E2E Encrypted Messaging</div>
+            <p class="pdesc">Real-time encrypted chat app with JWT auth, Socket.IO messaging, Node.js/Express backend, and MongoDB storage for scalable secure communication.</p>
+            <div class="plnks">
+              <a href="https://github.com/tousif632" class="pl" target="_blank">GitHub →</a>
+            </div>
+            <div class="ptechs"><span>Node.js</span><span>·</span><span>Socket.IO</span><span>·</span><span>MongoDB</span><span>·</span><span>JWT</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">04 / 05</div>
+    </div>
+
+    <!-- ===== SLIDE 5: CONTACT ===== -->
+    <div class="slide">
+      <div class="ct-wrap">
+        <div>
+          <div class="slabel">05 &mdash; Get In Touch</div>
+          <div class="ct-h">Let's build<br>something<br>remarkable.</div>
+          <p class="ct-sub">
+            AI/ML Engineer open to research roles, internships, full-time positions,
+            and collaborations in AI, ML, and systems engineering.
+          </p>
+          <a href="mailto:tousifahmed3025@gmail.com" class="bw">Send a message →</a>
+        </div>
+        <div>
+          <div class="ct-items">
+            <a href="mailto:tousifahmed3025@gmail.com" class="ci">
+              <span class="citype">Email</span>
+              <span class="cival">tousifahmed3025@gmail.com</span>
+            </a>
+            <a href="https://linkedin.com/in/tousif3" class="ci" target="_blank">
+              <span class="citype">LinkedIn</span>
+              <span class="cival">linkedin.com/in/tousif3</span>
+            </a>
+            <a href="https://github.com/tousif632" class="ci" target="_blank">
+              <span class="citype">GitHub</span>
+              <span class="cival">github.com/tousif632</span>
+            </a>
+            <div class="ci">
+              <span class="citype">Mobile</span>
+              <span class="cival">+91 6374224717</span>
+            </div>
+            <div class="ci">
+              <span class="citype">Location</span>
+              <span class="cival">Chennai, Tamil Nadu, India</span>
+            </div>
+            <div class="ci">
+              <span class="citype">Status</span>
+              <span class="cival" style="color:#4ade80">Open to opportunities</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">05 / 05</div>
+    </div>
+
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+let cur = 0;
+const total = 5;
+const track = document.getElementById('track');
+const pb = document.getElementById('pb');
+const nb2 = document.getElementById('nb2');
+const navBtns = document.querySelectorAll('.nb');
+const snn = document.getElementById('snn');
+const dotsEl = document.getElementById('dots');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  cur = Math.max(0, Math.min(total - 1, n));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  navBtns.forEach((b, i) => b.classList.toggle('active', i === cur));
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  pb.disabled = cur === 0;
+  nb2.disabled = cur === total - 1;
+  snn.textContent = (cur + 1) + '/' + total;
+}
+
+function prev() { goTo(cur - 1); }
+function next() { goTo(cur + 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
+});
+
+let tx = 0, ty = 0;
+const so = document.getElementById('so');
+so.addEventListener('touchstart', e => {
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+}, { passive: true });
+so.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  const dy = ty - e.changedTouches[0].clientY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    dx > 0 ? next() : prev();
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
